@@ -5,34 +5,50 @@ namespace CatalogAPI.Catalog.Infra.Repositories;
 
 public class ProdutcsRepository : IProductsRepository
 {
+    private readonly IDb _db;
 
-    public IDb _db;
-
-    public ProdutcsRepository(IDb db) {
+    public ProdutcsRepository(IDb db)
+    {
         _db = db;
     }
-    public Task<Guid> CreateOne(Product product)
+
+    public async Task<Guid> CreateOne(Product product)
     {
-        throw new NotImplementedException();
+        if (product == null) 
+            throw new ArgumentNullException(nameof(product));
+
+        var result = await _db.Insert(product);
+        return result.Id;
     }
 
-    public Task Delete(Guid id)
+    public async Task Delete(Guid id)
     {
-        throw new NotImplementedException();
+        var product = await _db.GetOneByID<Product>(id);
+        await _db.Delete(product);
     }
 
-    public Task<IEnumerable<Product>> GetAll()
+    public async Task<IEnumerable<Product>> GetAll()
     {
-        throw new NotImplementedException();
+        return await _db.GetAll<Product>();
     }
 
-    public Task<Product?> GetOneByID(Guid id)
+    public async Task<Product?> GetOneByID(Guid id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            return await _db.GetOneByID<Product>(id);
+        }
+        catch (KeyNotFoundException)
+        {
+            return null;
+        }
     }
 
-    public Task<Product> Update(Product product)
+    public async Task<Product> Update(Product product)
     {
-        throw new NotImplementedException();
+        if (product == null) 
+            throw new ArgumentNullException(nameof(product));
+
+            return await _db.UpdateEntity(product);
     }
 }

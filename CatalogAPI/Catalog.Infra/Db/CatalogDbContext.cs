@@ -40,7 +40,7 @@ namespace CatalogAPI.Catalog.Infra.Db
             return entity;
         }
 
-        public async Task<T> GetOneByID<T>(DbEntity entity, Guid id) where T: class
+        public async Task<T> GetOneByID<T>(Guid id) where T: class
         {
             if(id == Guid.Empty) throw new ArgumentException("ID must be set", nameof(id));
 
