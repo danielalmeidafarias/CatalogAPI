@@ -14,7 +14,7 @@ namespace CatalogAPI.Catalog.Application.Products.Handlers
 
         public async Task<Product> Execute(Guid id)
         {
-            try 
+            try
             {
                 var product = await _productRepository.GetOneByID(id);
                 return product is null ? throw new Exception("Product not found") : product;

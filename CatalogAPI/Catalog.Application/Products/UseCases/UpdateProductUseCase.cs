@@ -17,7 +17,7 @@ namespace CatalogAPI.Catalog.Application.Products.Handlers
             var existingProduct = await _productRepository.GetOneByID(product.Id);
             if (existingProduct is null)
                 throw new Exception("Product not found");
-         
+
             await _productRepository.Update(existingProduct);
 
             return product;

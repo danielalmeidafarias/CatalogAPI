@@ -16,7 +16,7 @@ namespace CatalogAPI.Catalog.Application.Products.Handlers
 
         public async Task<Guid> Execute(CreateProductDto input)
         {
-            try 
+            try
             {
                 var product = new Product(
                     input.Name,

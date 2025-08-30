@@ -2,6 +2,6 @@
 {
     public interface IUseCase<TRequest, TResponse>
     {
-        Task<TResponse>Execute(TRequest input);
+        Task<TResponse> Execute(TRequest input);
     }
 }
