@@ -1,5 +1,5 @@
 ﻿using CatalogAPI.Catalog.Domain.Interfaces;
-using CatalogAPI.Catalog.Domain.Entities
+using CatalogAPI.Catalog.Domain.Entities;
 
 namespace CatalogAPI.Catalog.Application.Products.Handlers
 {
@@ -14,8 +14,15 @@ namespace CatalogAPI.Catalog.Application.Products.Handlers
 
         public async Task<Product> Execute(Guid id)
         {
-            var product = await _productRepository.GetOneByID(id);
-            return product is null ? throw new Exception("Product not found") : product;
+            try 
+            {
+                var product = await _productRepository.GetOneByID(id);
+                return product is null ? throw new Exception("Product not found") : product;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting product", ex);
+            }
         }
     }
 }

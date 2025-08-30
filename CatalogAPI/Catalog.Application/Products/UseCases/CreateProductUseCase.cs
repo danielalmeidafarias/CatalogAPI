@@ -1,5 +1,6 @@
 ﻿using CatalogAPI.Catalog.Domain.Interfaces;
 using CatalogAPI.Catalog.Domain.Entities;
+using CatalogAPI.Catalog.Application.Products.Dto;
 
 
 namespace CatalogAPI.Catalog.Application.Products.Handlers
@@ -13,12 +14,23 @@ namespace CatalogAPI.Catalog.Application.Products.Handlers
             _productRepository = productRepository;
         }
 
-        public async Task<Guid> Execute(Product input)
+        public async Task<Guid> Execute(CreateProductDto input)
         {
-            var product = new Domain.Entities.Product(input.Name, input.Price, input.Description);
-            await _productRepository.CreateOne(product);
+            try 
+            {
+                var product = new Product(
+                    input.Name,
+                    input.Price,
+                    input.Description
+                );
+                await _productRepository.CreateOne(product);
+                return product.Id;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error creating product", ex);
+            }
 
-            return product.Id;
         }
     }
 }
