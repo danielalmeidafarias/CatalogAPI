@@ -3,19 +3,13 @@ using CatalogAPI.Catalog.Domain.Interfaces;
 
 namespace CatalogAPI.Catalog.Infra.Repositories;
 
-public class ProdutcsRepository : IProductsRepository
+public class ProdutcsRepository(IDb db) : IProductsRepository
 {
-    private readonly IDb _db;
-
-    public ProdutcsRepository(IDb db)
-    {
-        _db = db;
-    }
+    private readonly IDb _db = db;
 
     public async Task<Guid> CreateOne(Product product)
     {
-        if (product == null) 
-            throw new ArgumentNullException(nameof(product));
+        ArgumentNullException.ThrowIfNull(product);
 
         var result = await _db.Insert(product);
         return result.Id;
@@ -46,9 +40,8 @@ public class ProdutcsRepository : IProductsRepository
 
     public async Task<Product> Update(Product product)
     {
-        if (product == null) 
-            throw new ArgumentNullException(nameof(product));
+        ArgumentNullException.ThrowIfNull(product);
 
-            return await _db.UpdateEntity(product);
+        return await _db.UpdateEntity(product);
     }
 }
